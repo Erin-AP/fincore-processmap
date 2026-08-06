@@ -1,0 +1,19 @@
+node_modules/
+build/
+dist/
+dist_verify/
+coverage/
+.DS_Store
+*.log
+.env*
+!.env.example
+scripts/_scenarios_export.json
+scripts/__pycache__/
+
+# 補充資料 是掛回 OneDrive 的 directory junction（raw data，與同事共用），不進版控
+補充資料/
+
+# 手動日期備份與待刪區
+_backup/
+_to_delete/
+_to_delete_git/

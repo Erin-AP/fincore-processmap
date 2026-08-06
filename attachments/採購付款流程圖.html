@@ -1,0 +1,155 @@
+<meta charset="UTF-8">
+<title>採購付款作業流程圖</title>
+<style>
+  :root {
+    color-scheme: light dark;
+  }
+  body {
+    font-family: "Microsoft JhengHei", "PingFang TC", "Segoe UI", sans-serif;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 24px 16px 64px;
+    background: #f7f8fa;
+    color: #1f2430;
+  }
+  h1 {
+    text-align: center;
+    font-size: 1.5rem;
+    margin-bottom: 4px;
+  }
+  .subtitle {
+    text-align: center;
+    color: #666;
+    margin-bottom: 24px;
+    font-size: 0.9rem;
+  }
+  .diagram-wrap {
+    background: #fff;
+    border: 1px solid #e0e2e7;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    overflow-x: auto;
+  }
+  .mermaid {
+    display: flex;
+    justify-content: center;
+  }
+  .mermaid .node foreignObject {
+    overflow: visible !important;
+  }
+  .mermaid .node foreignObject div,
+  .mermaid .nodeLabel {
+    overflow: visible !important;
+    white-space: nowrap !important;
+  }
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 16px;
+    justify-content: center;
+    margin-top: 20px;
+    font-size: 0.8rem;
+  }
+  .legend span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .legend i {
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
+    display: inline-block;
+  }
+  @media (prefers-color-scheme: dark) {
+    body { background: #1a1c22; color: #e6e6e6; }
+    .diagram-wrap { background: #23262e; border-color: #33363f; box-shadow: none; }
+    .subtitle { color: #aaa; }
+  }
+</style>
+
+<h1>採購付款作業流程圖</h1>
+<div class="subtitle">依採購金額分流 → 驗收報銷 → 企財處核銷 → 出納付款</div>
+
+<div class="diagram-wrap">
+  <pre class="mermaid">
+%%{init: {
+  "theme": "base",
+  "themeVariables": {
+    "fontFamily": "Microsoft JhengHei, Noto Sans TC, sans-serif",
+    "fontSize": "14px"
+  }
+}}%%
+flowchart TD
+    A(["業務單位有採購需求"]):::start --> B{"金額判斷"}:::decision
+
+    B -->|1萬以下| C1["週轉金現金直付<br/>會二"]:::cash
+    B -->|6萬以下| C2["詢價採購<br/>事務組組長核定"]:::inquiry
+    B -->|15萬以下| C3["詢價採購"]:::inquiry
+    B -->|超過15萬| C4["比/議價採購<br/>指定廠商簽陳單"]:::negotiation
+    B -->|150萬以上| C5["通訊比價/公開招標"]:::tender
+
+    C1 --> D1["週轉金保管單位現金付款"]:::cash
+    D1 --> D2["彙總報銷→企財處→出納補足"]:::cash
+
+    C2 --> E["事務組辦採購"]:::process
+    C3 --> E
+    C4 --> E
+    C5 --> E
+
+    E --> F["廠商執行"]:::vendor
+    F --> G["業務單位驗收<br/>+ 填報銷欄 + 黏貼憑證"]:::process
+    G --> H["iService 報銷 → 紙本送企財處"]:::system
+    H --> I["企財處核銷<br/>KEY A單 / 憑證資料"]:::system
+    I --> J["確認產生傳票"]:::voucher
+    J --> K["傳票檢查表<br/>送組長複核"]:::voucher
+    K --> L["批次過帳<br/>中午/半夜"]:::voucher
+    L --> M["傳票附件送出納組"]:::voucher
+    M --> N{"付款方式"}:::decision
+    N -->|支票| O["印章用印→掛號/電話通知"]:::cheque
+    N -->|EDI| P["企業銀行系統電子轉帳"]:::edi
+    P -->|失敗| O
+    O --> Q(["付款完成"]):::end_node
+    P --> Q
+
+    classDef start       fill:#dbeafe,stroke:#3b82f6,color:#1e3a5f,font-weight:bold
+    classDef end_node    fill:#dcfce7,stroke:#22c55e,color:#14532d,font-weight:bold
+    classDef decision    fill:#fef9c3,stroke:#eab308,color:#713f12
+    classDef cash        fill:#fee2e2,stroke:#f87171,color:#7f1d1d
+    classDef inquiry     fill:#e0f2fe,stroke:#38bdf8,color:#0c4a6e
+    classDef negotiation fill:#ede9fe,stroke:#a78bfa,color:#3b0764
+    classDef tender      fill:#fce7f3,stroke:#f472b6,color:#831843
+    classDef process     fill:#dbeafe,stroke:#3b82f6,color:#1e3a5f
+    classDef vendor      fill:#f0fdf4,stroke:#4ade80,color:#14532d
+    classDef system      fill:#f0f9ff,stroke:#38bdf8,color:#0c4a6e
+    classDef voucher     fill:#fefce8,stroke:#facc15,color:#713f12
+    classDef cheque      fill:#fff7ed,stroke:#fb923c,color:#7c2d12
+    classDef edi         fill:#f0fdf4,stroke:#34d399,color:#065f46
+  </pre>
+
+  <div class="legend">
+    <span><i style="background:#dbeafe;border:1px solid #3b82f6"></i>起點</span>
+    <span><i style="background:#dcfce7;border:1px solid #22c55e"></i>結束點</span>
+    <span><i style="background:#fef9c3;border:1px solid #eab308"></i>判斷節點</span>
+    <span><i style="background:#fee2e2;border:1px solid #f87171"></i>週轉金現金付款</span>
+    <span><i style="background:#e0f2fe;border:1px solid #38bdf8"></i>詢價採購</span>
+    <span><i style="background:#ede9fe;border:1px solid #a78bfa"></i>比/議價採購</span>
+    <span><i style="background:#fce7f3;border:1px solid #f472b6"></i>公開招標</span>
+    <span><i style="background:#dbeafe;border:1px solid #3b82f6"></i>一般作業流程</span>
+    <span><i style="background:#f0fdf4;border:1px solid #4ade80"></i>廠商</span>
+    <span><i style="background:#f0f9ff;border:1px solid #38bdf8"></i>企財處系統作業</span>
+    <span><i style="background:#fefce8;border:1px solid #facc15"></i>傳票作業</span>
+    <span><i style="background:#fff7ed;border:1px solid #fb923c"></i>支票付款</span>
+    <span><i style="background:#f0fdf4;border:1px solid #34d399"></i>EDI 電子轉帳</span>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script>
+  mermaid.initialize({
+    startOnLoad: true,
+    flowchart: { curve: 'basis', useMaxWidth: true, htmlLabels: true },
+    securityLevel: 'loose'
+  });
+</script>

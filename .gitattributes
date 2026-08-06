@@ -1,0 +1,9 @@
+# 統一以 LF 存進 repo，避免 Windows 上每個檔都跳 "LF will be replaced by CRLF"
+* text=auto eol=lf
+
+# 二進位／不要動的檔案
+*.xlsx binary
+*.docx binary
+*.pdf  binary
+*.png  binary
+*.jpg  binary
