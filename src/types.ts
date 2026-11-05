@@ -11,7 +11,7 @@ export interface ProcessStep {
   tool?: string; // Keep for backward compatibility or merge
   manHours: string;
   frequency: string;
-  sources: ('SOP' | '1st訪談' | '補充資料')[];
+  sources: ('SOP' | '1st訪談' | '2nd訪談' | '補充資料' | '線下回饋_出納')[];
 }
 
 export interface Scenario {
